@@ -29,6 +29,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -38,6 +39,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -67,7 +69,10 @@
       <workItem from="1574481830948" duration="684000" />
       <workItem from="1575095055165" duration="742000" />
       <workItem from="1595180461466" duration="1714000" />
-      <workItem from="1647920570847" duration="1206000" />
+      <workItem from="1647920570847" duration="2493000" />
+      <workItem from="1649868712439" duration="84000" />
+      <workItem from="1650853833824" duration="1721000" />
+      <workItem from="1664824916153" duration="1850000" />
     </task>
     <servers />
   </component>
@@ -84,11 +89,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="-1932" y="-242" width="670" height="676" key="search.everywhere.popup" timestamp="1595181953212">
-      <screen x="-3200" y="-657" width="3200" height="1777" />
-    </state>
-    <state x="-1932" y="-242" width="670" height="676" key="search.everywhere.popup/-3200.-657.3200.1777/0.23.1792.1049@-3200.-657.3200.1777" timestamp="1595181953212" />
   </component>
 </project>
