@@ -72,7 +72,9 @@
       <workItem from="1647920570847" duration="2493000" />
       <workItem from="1649868712439" duration="84000" />
       <workItem from="1650853833824" duration="1721000" />
-      <workItem from="1664824916153" duration="2251000" />
+      <workItem from="1664824916153" duration="2481000" />
+      <workItem from="1666640370367" duration="126000" />
+      <workItem from="1668827837992" duration="37000" />
     </task>
     <task id="LOCAL-00001" summary="Adds details for Canix experience">
       <created>1664826833170</created>
@@ -88,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664826903178</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Adds details for Canix experience">
+      <created>1664827206368</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1664827206368</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
