@@ -12,6 +12,10 @@ body {
   }
 }
 
+@media print {
+  pre, blockquote {page-break-inside: avoid;}
+}
+
 h1,
 h2,
 h3,

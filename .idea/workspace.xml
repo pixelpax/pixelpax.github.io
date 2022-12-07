@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39c46175-953e-40e4-8093-e851b5738c8d" name="Default Changelist" comment="Adds details for Canix experience">
+    <list default="true" id="39c46175-953e-40e4-8093-e851b5738c8d" name="Default Changelist" comment="Fixes location">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scss/_global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/scss/_global.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +75,9 @@
       <workItem from="1650853833824" duration="1721000" />
       <workItem from="1664824916153" duration="2481000" />
       <workItem from="1666640370367" duration="126000" />
-      <workItem from="1668827837992" duration="37000" />
+      <workItem from="1668827837992" duration="1286000" />
+      <workItem from="1669761750673" duration="1046000" />
+      <workItem from="1670373823723" duration="1588000" />
     </task>
     <task id="LOCAL-00001" summary="Adds details for Canix experience">
       <created>1664826833170</created>
@@ -97,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664827206368</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixes location">
+      <created>1668827894145</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668827894145</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,6 +126,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Adds details for Canix experience" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds details for Canix experience" />
+    <MESSAGE value="Fixes location" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes location" />
   </component>
 </project>
