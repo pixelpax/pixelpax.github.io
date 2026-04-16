@@ -1,0 +1,16 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import "../styles/resume.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <main class="resume-page">
+    <slot />
+  </main>
+</BaseLayout>

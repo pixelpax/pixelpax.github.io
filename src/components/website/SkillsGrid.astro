@@ -1,0 +1,43 @@
+---
+import type { Skills } from "../../lib/data";
+
+interface Props {
+  skills: Skills;
+}
+
+const { skills } = Astro.props;
+
+function levelColor(level?: string): string {
+  switch (level) {
+    case "expert": return "border-[var(--color-accent)] text-[var(--color-accent)]";
+    case "proficient": return "border-[var(--color-border)] text-[var(--color-text)]";
+    default: return "border-[var(--color-border)] text-[var(--color-text-muted)]";
+  }
+}
+---
+
+<section id="skills" class="py-24 md:py-32 px-8 bg-[var(--color-bg-card)]">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="section-heading font-heading text-3xl md:text-4xl font-bold mb-16 text-[var(--color-accent)]" data-animate="fade-up">
+      Skills
+    </h2>
+
+    {skills.categories.map((cat) => (
+      <div class="mb-10" data-animate="fade-up">
+        <h3 class="text-sm uppercase tracking-[0.15em] text-[var(--color-text-muted)] font-medium mb-4">
+          {cat.name}
+        </h3>
+        <div class="flex flex-wrap gap-2" data-animate-stagger>
+          {cat.items.map((item) => (
+            <span class={`text-sm px-3 py-1.5 rounded-full border transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] ${levelColor(item.level)}`}>
+              {item.name}
+              {item.certification && (
+                <span class="ml-1 text-xs opacity-60">({item.certification})</span>
+              )}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

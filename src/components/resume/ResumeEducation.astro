@@ -1,0 +1,42 @@
+---
+interface EducationEntry {
+  data: {
+    institution: string;
+    degree: string;
+    location: string;
+    start: string;
+    end: string;
+    gpa?: string;
+    short: string;
+    coursework: string[];
+  };
+}
+
+interface Props {
+  entries: EducationEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section class="resume-section mb-3">
+  <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 border-b border-[var(--color-border)] pb-1">
+    Education
+  </h2>
+  {entries.map((entry) => (
+    <div class="resume-entry mb-2">
+      <div class="flex justify-between items-baseline">
+        <div>
+          <span class="font-semibold text-sm">{entry.data.institution}</span>
+          <span class="text-[var(--color-text-muted)] text-xs"> — {entry.data.degree}</span>
+        </div>
+        <span class="text-xs text-[var(--color-text-muted)] whitespace-nowrap ml-4">
+          {entry.data.start} – {entry.data.end}
+        </span>
+      </div>
+      {entry.data.gpa && (
+        <p class="text-xs text-[var(--color-text-muted)] mt-0.5">GPA: {entry.data.gpa}</p>
+      )}
+    </div>
+  ))}
+</section>

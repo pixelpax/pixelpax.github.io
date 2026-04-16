@@ -1,0 +1,149 @@
+---
+// Client-side GSAP animations — this component injects the animation script
+---
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero letter animation — snappy
+  const heroLetters = document.querySelectorAll(".hero-letter");
+  if (heroLetters.length) {
+    gsap.from(heroLetters, {
+      y: 40,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.025,
+      ease: "power2.out",
+    });
+  }
+
+  // Hero tagline
+  gsap.to(".hero-tagline", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    delay: 0.5,
+    ease: "power2.out",
+  });
+
+  // Hero headline
+  gsap.to(".hero-headline", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    delay: 0.7,
+    ease: "power2.out",
+  });
+
+  // Hero links
+  gsap.to(".hero-links", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    delay: 0.9,
+    ease: "power2.out",
+  });
+
+  // Scroll indicator
+  gsap.to(".scroll-indicator", {
+    opacity: 0.5,
+    delay: 1.5,
+    duration: 0.8,
+  });
+
+  // Fade up elements on scroll
+  gsap.utils.toArray('[data-animate="fade-up"]').forEach((el) => {
+    gsap.from(el as Element, {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: el as Element,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+  });
+
+  // Stagger children
+  gsap.utils.toArray("[data-animate-stagger]").forEach((container) => {
+    const el = container as Element;
+    gsap.from(el.children, {
+      y: 30,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.06,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+  });
+
+  // Rotating "Built ___" — 3D cube-face swap on a single element
+  const rotatingEl = document.querySelector(".rotating-text") as HTMLElement;
+  if (rotatingEl) {
+    const phrases = ["Built fast", "Built right", "Built with love \u2665"];
+    let current = 0;
+
+    gsap.set(rotatingEl, { perspective: 400, transformStyle: "preserve-3d" });
+
+    function swapPhrase() {
+      const next = (current + 1) % phrases.length;
+
+      // Rotate out: tip forward and fade
+      gsap.to(rotatingEl, {
+        rotationX: -90,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.in",
+        transformOrigin: "center 60%",
+        onComplete: () => {
+          // Swap text while hidden
+          rotatingEl.textContent = phrases[next];
+          current = next;
+
+          // Snap to rotated-in position, then animate to flat
+          gsap.fromTo(
+            rotatingEl,
+            { rotationX: 90, opacity: 0 },
+            {
+              rotationX: 0,
+              opacity: 1,
+              duration: 0.4,
+              ease: "power2.out",
+              transformOrigin: "center 40%",
+            }
+          );
+        },
+      });
+    }
+
+    setTimeout(() => {
+      swapPhrase();
+      setInterval(swapPhrase, 2500);
+    }, 2000);
+  }
+
+  // Timeline line draw
+  const timelineLine = document.querySelector(".timeline-line");
+  if (timelineLine) {
+    gsap.from(timelineLine, {
+      scaleY: 0,
+      transformOrigin: "top",
+      ease: "none",
+      scrollTrigger: {
+        trigger: timelineLine,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+      },
+    });
+  }
+</script>

@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from "astro:content";
+import WebsiteLayout from "../layouts/WebsiteLayout.astro";
+import Hero from "../components/website/Hero.astro";
+import ExperienceTimeline from "../components/website/ExperienceTimeline.astro";
+import SkillsGrid from "../components/website/SkillsGrid.astro";
+import EducationSection from "../components/website/EducationSection.astro";
+import ProjectsGallery from "../components/website/ProjectsGallery.astro";
+import ScrollAnimations from "../components/website/ScrollAnimations.astro";
+import { getMeta, getSkills } from "../lib/data";
+
+const meta = getMeta();
+const skills = getSkills();
+
+const aboutEntries = await getCollection("about");
+const aboutEntry = aboutEntries[0];
+const { Content: AboutContent } = await render(aboutEntry);
+
+const experience = (await getCollection("experience"))
+  .filter((e) => e.data.visible)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const education = (await getCollection("education"))
+  .filter((e) => e.data.visible)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const projects = (await getCollection("projects"))
+  .filter((e) => e.data.visible)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<WebsiteLayout title={`${meta.name} — ${meta.tagline}`}>
+  <Hero meta={meta} />
+
+  <section id="about" class="py-24 md:py-32 px-8">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="section-heading font-heading text-3xl md:text-4xl font-bold mb-12 text-[var(--color-accent)]" data-animate="fade-up">
+        About
+      </h2>
+      <div class="prose-content text-base md:text-lg leading-relaxed text-[var(--color-text-muted)] space-y-6" data-animate="fade-up">
+        <AboutContent />
+      </div>
+    </div>
+  </section>
+
+  <ExperienceTimeline entries={experience} />
+
+  <SkillsGrid skills={skills} />
+
+  <EducationSection entries={education} />
+
+  <ProjectsGallery entries={projects} />
+
+  <ScrollAnimations />
+</WebsiteLayout>

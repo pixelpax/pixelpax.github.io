@@ -1,0 +1,63 @@
+---
+interface EducationEntry {
+  data: {
+    institution: string;
+    degree: string;
+    location: string;
+    start: string;
+    end: string;
+    gpa?: string;
+    coursework: string[];
+  };
+  short: string;
+}
+
+interface Props {
+  entries: EducationEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section id="education" class="py-24 md:py-32 px-8">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="section-heading font-heading text-3xl md:text-4xl font-bold mb-16 text-[var(--color-accent)]" data-animate="fade-up">
+      Education
+    </h2>
+
+    {entries.map((entry) => (
+      <div class="mb-12 last:mb-0" data-animate="fade-up">
+        <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-3">
+          <div>
+            <h3 class="text-xl font-semibold">{entry.data.institution}</h3>
+            <p class="text-sm text-[var(--color-text-muted)]">{entry.data.degree}</p>
+          </div>
+          <span class="text-xs text-[var(--color-accent)] tracking-wide font-medium">
+            {entry.data.start} — {entry.data.end}
+          </span>
+        </div>
+
+        {entry.data.gpa && (
+          <p class="text-sm text-[var(--color-text-muted)] mb-4">GPA: {entry.data.gpa}</p>
+        )}
+
+        <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+          {entry.data.short}
+        </p>
+
+        {entry.data.coursework.length > 0 && (
+          <div>
+            <p class="text-xs uppercase tracking-[0.15em] text-[var(--color-text-muted)] font-medium mb-3">Notable Coursework</p>
+            <div class="flex flex-wrap gap-2" data-animate-stagger>
+              {entry.data.coursework.slice(0, 8).map((course) => (
+                <span class="text-xs px-2.5 py-1 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)]">
+                  {course}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</section>

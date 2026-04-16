@@ -1,0 +1,794 @@
+---
+import { getCollection, render } from "astro:content";
+import { getMeta, getSkills } from "../lib/data";
+
+const meta = getMeta();
+const skills = getSkills();
+
+const aboutEntry = (await getCollection("about"))[0];
+const { Content: AboutContent } = await render(aboutEntry);
+
+const allExperience = await getCollection("experience");
+
+const experience = allExperience
+  .filter((e) => e.data.resumeVisible)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const additionalExperience = allExperience
+  .filter((e) => e.data.resumeAdditional)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const education = (await getCollection("education"))
+  .filter((e) => e.data.resumeVisible)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const projects = (await getCollection("projects"))
+  .filter((e) => e.data.resumeVisible)
+  .sort((a, b) => a.data.order - b.data.order);
+
+function formatDate(d: string): string {
+  if (d === "present") return "Present";
+  const [year, month] = d.split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return month ? `${months[parseInt(month) - 1]} ${year}` : year;
+}
+
+const taglineRaw = meta.resumeTagline || meta.tagline;
+const taglineLines = taglineRaw.split(/\s*·\s*/);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{meta.name} — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Raleway:wght@200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: letter;
+    margin: 0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 9pt;
+    color: #2a2a2a;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2.6in 1fr;
+    position: relative;
+  }
+
+  .page-2 {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .slim-label {
+    color: #7a8fa3 !important;
+    font-size: 6.5pt !important;
+    letter-spacing: 0.3em !important;
+    margin-top: 0.08in !important;
+  }
+
+  .slim-quote {
+    margin-top: 0.4in;
+    padding-left: 0.05in;
+    border-left: 2px solid rgba(201, 160, 80, 0.5);
+    padding-left: 0.14in;
+  }
+
+  .slim-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13pt;
+    line-height: 1.25;
+    color: #c9a050;
+    font-weight: 500;
+  }
+
+  .stat-block {
+    margin-bottom: 0.1in;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 18pt;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .stat-arrow {
+    color: #c9a050;
+    margin: 0 0.04in;
+    font-size: 14pt;
+    font-weight: 400;
+  }
+
+  .stat-sub {
+    font-size: 10pt;
+    color: #8a96a3;
+    font-weight: 400;
+    margin-left: 0.02in;
+  }
+
+  .stat-label {
+    font-size: 6.5pt;
+    font-weight: 500;
+    color: #8a96a3;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 0.03in;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: #0a0a14;
+    color: #c8cdd3;
+    padding: 0 0.3in 0.45in 0.3in;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(100, 140, 180, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 140, 180, 0.03) 1px, transparent 1px);
+    background-size: 14px 14px;
+    pointer-events: none;
+  }
+
+  .accent-bar {
+    width: calc(100% + 0.6in);
+    margin-left: -0.3in;
+    height: 4px;
+    background: linear-gradient(90deg, #b8964e, #d4b06a, #c9a050);
+    margin-bottom: 0.5in;
+  }
+
+  .name-block { position: relative; margin-bottom: 0.1in; }
+
+  .first-name, .last-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 28pt;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+  }
+
+  .last-name {
+    letter-spacing: 0.06em;
+    margin-bottom: 0.06in;
+  }
+
+  .title-line {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8a9fb3;
+    line-height: 1.6;
+    display: block;
+  }
+
+  .title-line:first-of-type { margin-top: 0.1in; }
+
+  .location-line {
+    font-weight: 300;
+    font-size: 6.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #56677a;
+    margin-top: 0.04in;
+  }
+
+  .gold-rule {
+    width: 0.7in;
+    height: 1px;
+    background: linear-gradient(90deg, #c9a050, transparent);
+    margin: 0.25in 0 0.2in 0;
+  }
+
+  .sidebar h3 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 6.5pt;
+    color: #c9a050;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 0.1in;
+    margin-top: 0.2in;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 0.1in;
+    margin-bottom: 0.07in;
+  }
+
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(201, 160, 80, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8pt;
+    color: #c9a050;
+    flex-shrink: 0;
+  }
+
+  .contact-icon svg {
+    width: 10px;
+    height: 10px;
+    fill: #c9a050;
+  }
+
+  .contact-text {
+    font-size: 7.5pt;
+    font-weight: 400;
+    color: #b0b8c2;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-text a { color: #b0b8c2; text-decoration: none; }
+
+  .skills-category {
+    margin-bottom: 0.12in;
+  }
+
+  .skills-category-name {
+    font-size: 7pt;
+    font-weight: 500;
+    color: #8a96a3;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.04in;
+  }
+
+  .sw-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .sw-tag {
+    display: inline-block;
+    font-size: 6pt;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #c9a050;
+    background: rgba(201, 160, 80, 0.08);
+    border: 1px solid rgba(201, 160, 80, 0.18);
+    border-radius: 2px;
+    padding: 2px 6px;
+  }
+
+  .sw-tag.expert {
+    color: #e0c080;
+    border-color: rgba(201, 160, 80, 0.35);
+    background: rgba(201, 160, 80, 0.12);
+  }
+
+  .domain-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .domain-list li {
+    font-size: 7.5pt;
+    color: #a8b2bc;
+    padding: 0.03in 0 0.03in 0.15in;
+    position: relative;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .domain-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 1px;
+    background: #c9a050;
+  }
+
+  .corner-mark {
+    position: absolute;
+    bottom: 0.35in;
+    left: 0.3in;
+    width: 0.35in;
+    height: 0.35in;
+    border-left: 1px solid rgba(201, 160, 80, 0.2);
+    border-bottom: 1px solid rgba(201, 160, 80, 0.2);
+  }
+
+  /* ── MAIN PANEL ── */
+  .main {
+    padding: 0.4in 0.5in 0.4in 0.45in;
+    position: relative;
+  }
+
+  .main-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #e8dcc8, #f5f0e6, #eee8d8);
+  }
+
+  .section { margin-bottom: 0.16in; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.1in;
+    margin-bottom: 0.06in;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 11pt;
+    color: #0f1923;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #c9a050, #e8dcc8 40%, transparent);
+    margin-left: 0.06in;
+  }
+
+  .summary-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #3a3a3a;
+    font-style: italic;
+    border-left: 2px solid #c9a050;
+    padding-left: 0.15in;
+    margin-top: 0.02in;
+  }
+
+  .summary-text p { margin-bottom: 0.05in; }
+  .summary-text p:last-child { margin-bottom: 0; }
+
+  .job-block {
+    margin-top: 0.09in;
+    padding-top: 0.09in;
+    border-top: 1px solid #ece7dc;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .job-block:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 0.05in;
+  }
+
+  .edu-block, .project-block {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .section { page-break-inside: auto; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .job-title-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 10pt;
+    color: #1a2332;
+  }
+
+  .job-date-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 6.5pt;
+    font-weight: 600;
+    color: #c9a050;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .job-company-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9pt;
+    color: #888;
+    font-style: italic;
+    margin-top: 0.01in;
+  }
+
+  .job-desc {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #444;
+    margin-top: 0.04in;
+  }
+
+  .job-bullets {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.03in;
+  }
+
+  .job-bullets li {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #3a3a3a;
+    padding: 0.01in 0 0.01in 0.2in;
+    position: relative;
+    font-weight: 400;
+  }
+
+  .job-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0.02in;
+    top: 0.075in;
+    width: 5px;
+    height: 5px;
+    border: 1px solid #c9a050;
+    transform: rotate(45deg);
+  }
+
+  .edu-block { margin-top: 0.1in; margin-bottom: 0.08in; }
+
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .edu-degree-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 10pt;
+    color: #1a2332;
+  }
+
+  .edu-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 0.02in;
+  }
+
+  .edu-school-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9pt;
+    color: #888;
+    font-style: italic;
+  }
+
+  .edu-gpa-text {
+    font-size: 7.5pt;
+    color: #888;
+  }
+
+  .edu-date-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 6.5pt;
+    font-weight: 600;
+    color: #c9a050;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .edu-gpa {
+    font-size: 8pt;
+    color: #888;
+    margin-top: 0.02in;
+  }
+
+  .project-block { margin-top: 0.05in; }
+
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 9.5pt;
+    color: #1a2332;
+    display: inline;
+  }
+
+  .project-desc-inline {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #555;
+    display: inline;
+    margin-left: 0.04in;
+  }
+
+  .main-corner {
+    position: absolute;
+    bottom: 0.35in;
+    right: 0.45in;
+    width: 0.3in;
+    height: 0.3in;
+    border-right: 1px solid rgba(201, 160, 80, 0.25);
+    border-bottom: 1px solid rgba(201, 160, 80, 0.25);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { width: 100%; min-height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="accent-bar"></div>
+
+    <div class="name-block">
+      <div class="first-name">{meta.firstName}</div>
+      <div class="last-name">{meta.lastName}</div>
+      {taglineLines.map((line) => <div class="title-line">{line}</div>)}
+      <div class="location-line">{meta.location}</div>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <h3>Contact</h3>
+    <div class="contact-row">
+      <div class="contact-icon">&#9742;</div>
+      <div class="contact-text">{meta.phone}</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">&#9993;</div>
+      <div class="contact-text"><a href={`mailto:${meta.email}`}>{meta.email}</a></div>
+    </div>
+    {meta.links.linkedin && (
+      <div class="contact-row">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </div>
+        <div class="contact-text"><a href={meta.links.linkedin}>LinkedIn</a></div>
+      </div>
+    )}
+    {meta.links.github && (
+      <div class="contact-row">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </div>
+        <div class="contact-text"><a href={meta.links.github}>GitHub</a></div>
+      </div>
+    )}
+    {meta.links.website && (
+      <div class="contact-row">
+        <div class="contact-icon">&#9672;</div>
+        <div class="contact-text"><a href={meta.links.website}>{meta.links.website.replace("https://", "")}</a></div>
+      </div>
+    )}
+
+    <div class="gold-rule"></div>
+
+    <h3>Technical Skills</h3>
+    {skills.categories.filter(c => c.name !== "Domains").map((cat) => (
+      <div class="skills-category">
+        <div class="skills-category-name">{cat.name}</div>
+        <div class="sw-tags">
+          {cat.items.map((item) => (
+            <span class={`sw-tag ${item.level === "expert" ? "expert" : ""}`}>
+              {item.name}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="gold-rule"></div>
+
+    <h3>Domains</h3>
+    {skills.categories.filter(c => c.name === "Domains").map((cat) => (
+      <ul class="domain-list">
+        {cat.items.map((item) => (
+          <li>{item.name}</li>
+        ))}
+      </ul>
+    ))}
+
+    <div class="corner-mark"></div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <div class="main-accent"></div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Summary</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="summary-text">
+        <AboutContent />
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Experience</div>
+        <div class="section-rule"></div>
+      </div>
+      {experience.map((entry) => (
+        <div class="job-block">
+          <div class="job-header">
+            <div class="job-title-text">{entry.data.title}</div>
+            <div class="job-date-text">{formatDate(entry.data.start)} &mdash; {formatDate(entry.data.end)}</div>
+          </div>
+          <div class="job-company-text">{entry.data.company}, {entry.data.location}</div>
+          <p class="job-desc">{entry.data.short}</p>
+          {entry.data.highlights.length > 0 && (
+            <ul class="job-bullets">
+              {entry.data.highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Education</div>
+        <div class="section-rule"></div>
+      </div>
+      {education.map((entry) => (
+        <div class="edu-block">
+          <div class="edu-header">
+            <div class="edu-degree-text">{entry.data.degree}</div>
+            <div class="edu-date-text">{entry.data.start} &mdash; {entry.data.end}</div>
+          </div>
+          <div class="edu-meta">
+            <div class="edu-school-text">{entry.data.institution}, {entry.data.location}</div>
+            {entry.data.gpa && <div class="edu-gpa-text">GPA: {entry.data.gpa}</div>}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Projects</div>
+        <div class="section-rule"></div>
+      </div>
+      {projects.map((entry) => (
+        <div class="project-block">
+          <span class="project-name">{entry.data.name}</span>
+          <span class="project-desc-inline">&mdash; {entry.data.short}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="main-corner"></div>
+  </main>
+
+</div>
+
+{additionalExperience.length > 0 && (
+<div class="page page-2">
+  <aside class="sidebar sidebar-slim">
+    <div class="accent-bar"></div>
+    <div class="name-block">
+      <div class="first-name">{meta.firstName}</div>
+      <div class="last-name">{meta.lastName}</div>
+      <div class="title-line slim-label">Continued</div>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <div class="slim-quote">
+      <p>Ten years.<br/>Still obsessed.</p>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <h3>By the Numbers</h3>
+    <div class="stat-block">
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Years Shipping</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">2&times;</div>
+      <div class="stat-label">Founding Engineer</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">$1B+</div>
+      <div class="stat-label">Transactions Built</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">1<span class="stat-arrow">&rarr;</span>12</div>
+      <div class="stat-label">Team Grown</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">9.1<span class="stat-sub">/10</span></div>
+      <div class="stat-label">Team Satisfaction</div>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <h3>Also</h3>
+    <ul class="domain-list">
+      <li>AWS Solutions Architect</li>
+      <li>TechCrunch Disrupt 2020 Winner</li>
+      <li>UW NEST Wisconsin IDEA Prize</li>
+    </ul>
+
+    <div class="corner-mark"></div>
+  </aside>
+
+  <main class="main">
+    <div class="main-accent"></div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Additional Experience</div>
+        <div class="section-rule"></div>
+      </div>
+      {additionalExperience.map((entry) => (
+        <div class="job-block">
+          <div class="job-header">
+            <div class="job-title-text">{entry.data.title}</div>
+            <div class="job-date-text">{formatDate(entry.data.start)} &mdash; {formatDate(entry.data.end)}</div>
+          </div>
+          <div class="job-company-text">{entry.data.company}, {entry.data.location}</div>
+          <p class="job-desc">{entry.data.short}</p>
+          {entry.data.highlights.length > 0 && (
+            <ul class="job-bullets">
+              {entry.data.highlights.slice(0, 3).map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+    <div class="main-corner"></div>
+  </main>
+</div>
+)}
+
+</body>
+</html>

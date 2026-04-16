@@ -1,0 +1,75 @@
+---
+interface ExperienceEntry {
+  id: string;
+  data: {
+    company: string;
+    title: string;
+    location: string;
+    start: string;
+    end: string;
+    short: string;
+    tags: string[];
+  };
+}
+
+interface Props {
+  entries: ExperienceEntry[];
+}
+
+const { entries } = Astro.props;
+
+function formatDate(d: string): string {
+  if (d === "present") return "Present";
+  const [year, month] = d.split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return month ? `${months[parseInt(month) - 1]} ${year}` : year;
+}
+---
+
+<section id="experience" class="py-24 md:py-32 px-8">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="section-heading font-heading text-3xl md:text-4xl font-bold mb-16 text-[var(--color-accent)]" data-animate="fade-up">
+      Experience
+    </h2>
+
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="timeline-line absolute left-0 md:left-8 top-0 bottom-0 w-px bg-[var(--color-border)]"></div>
+
+      {entries.map((entry, i) => (
+        <div class="timeline-entry relative pl-8 md:pl-20 pb-16 last:pb-0" data-animate="fade-up">
+          <!-- Timeline dot -->
+          <div class="absolute left-0 md:left-8 top-1 w-2 h-2 -translate-x-[3.5px] rounded-full bg-[var(--color-accent)]"></div>
+
+          <div class="group">
+            <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-3">
+              <div>
+                <h3 class="text-xl font-semibold">{entry.data.title}</h3>
+                <p class="text-sm text-[var(--color-text-muted)]">
+                  {entry.data.company} &middot; {entry.data.location}
+                </p>
+              </div>
+              <span class="text-xs text-[var(--color-accent)] tracking-wide font-medium whitespace-nowrap">
+                {formatDate(entry.data.start)} — {formatDate(entry.data.end)}
+              </span>
+            </div>
+
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">
+              {entry.data.short}
+            </p>
+
+            {entry.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-2 mt-4">
+                {entry.data.tags.map((tag) => (
+                  <span class="text-xs px-2.5 py-1 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+---
+interface ExperienceEntry {
+  data: {
+    company: string;
+    title: string;
+    location: string;
+    start: string;
+    end: string;
+    short: string;
+    highlights: string[];
+    tags: string[];
+  };
+}
+
+interface Props {
+  entries: ExperienceEntry[];
+}
+
+const { entries } = Astro.props;
+
+function formatDate(d: string): string {
+  if (d === "present") return "Present";
+  const [year, month] = d.split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return month ? `${months[parseInt(month) - 1]} ${year}` : year;
+}
+---
+
+<section class="resume-section mb-3">
+  <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 border-b border-[var(--color-border)] pb-1">
+    Experience
+  </h2>
+  {entries.map((entry) => (
+    <div class="resume-entry mb-2.5">
+      <div class="flex justify-between items-baseline">
+        <div>
+          <span class="font-semibold text-sm">{entry.data.title}</span>
+          <span class="text-[var(--color-text-muted)] text-xs"> — {entry.data.company}, {entry.data.location}</span>
+        </div>
+        <span class="text-xs text-[var(--color-text-muted)] whitespace-nowrap ml-4">
+          {formatDate(entry.data.start)} – {formatDate(entry.data.end)}
+        </span>
+      </div>
+      <p class="text-xs mt-0.5 leading-snug">{entry.data.short}</p>
+      {entry.data.highlights.length > 0 && (
+        <ul class="mt-1 text-xs leading-snug list-disc list-outside ml-4 space-y-0.5">
+          {entry.data.highlights.map((h) => (
+            <li>{h}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  ))}
+</section>

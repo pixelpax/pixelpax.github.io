@@ -1,0 +1,47 @@
+categories:
+  - name: "Languages"
+    items:
+      - { name: "TypeScript", level: "expert" }
+      - { name: "JavaScript", level: "expert" }
+      - { name: "Python", level: "expert" }
+      - { name: "C#", level: "proficient" }
+      - { name: "Kotlin", level: "proficient" }
+      - { name: "Java", level: "proficient" }
+      - { name: "C++", level: "familiar" }
+      - { name: "Ruby", level: "proficient" }
+      - { name: "HTML/CSS", level: "expert" }
+
+  - name: "Frameworks & Libraries"
+    items:
+      - { name: "React / Next.js", level: "expert" }
+      - { name: "Node.js / Nest", level: "expert" }
+      - { name: "Apollo GraphQL", level: "expert" }
+      - { name: "React Native", level: "proficient" }
+      - { name: "Rails", level: "proficient" }
+      - { name: "Angular / Ember", level: "proficient" }
+      - { name: "Unity3D", level: "proficient" }
+      - { name: "Redux", level: "proficient" }
+
+  - name: "Infrastructure & Tools"
+    items:
+      - { name: "PostgreSQL", level: "expert" }
+      - { name: "Kafka", level: "proficient" }
+      - { name: "AWS", level: "proficient", certification: "AWS Solutions Architect" }
+      - { name: "Docker", level: "proficient" }
+      - { name: "GCP", level: "proficient" }
+      - { name: "MongoDB", level: "familiar" }
+      - { name: "Firebase", level: "proficient" }
+      - { name: "Redis", level: "proficient" }
+
+  - name: "Domains"
+    items:
+      - { name: "Distributed Systems" }
+      - { name: "Machine Learning & Data Science" }
+      - { name: "Computer Vision" }
+      - { name: "Computer Graphics" }
+      - { name: "DSL Design" }
+      - { name: "Robotics" }
+      - { name: "CAD (NURBS, parametric)" }
+      - { name: "Mobile-First Responsive Design" }
+      - { name: "Agile Development & Scrum" }
+      - { name: "UX Research & Design" }

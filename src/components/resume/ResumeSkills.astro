@@ -1,0 +1,25 @@
+---
+import type { Skills } from "../../lib/data";
+
+interface Props {
+  skills: Skills;
+}
+
+const { skills } = Astro.props;
+---
+
+<section class="resume-section mb-3">
+  <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 border-b border-[var(--color-border)] pb-1">
+    Skills
+  </h2>
+  {skills.categories.map((cat) => (
+    <div class="mb-1.5">
+      <span class="text-xs font-semibold">{cat.name}: </span>
+      <span class="text-xs">
+        {cat.items.map((item, i) => (
+          <>{i > 0 && ", "}{item.name}{item.certification && ` (${item.certification})`}</>
+        ))}
+      </span>
+    </div>
+  ))}
+</section>

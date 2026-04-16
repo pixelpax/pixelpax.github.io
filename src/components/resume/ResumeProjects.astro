@@ -1,0 +1,27 @@
+---
+interface ProjectEntry {
+  data: {
+    name: string;
+    short: string;
+    highlights: string[];
+  };
+}
+
+interface Props {
+  entries: ProjectEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section class="resume-section mb-3">
+  <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 border-b border-[var(--color-border)] pb-1">
+    Projects
+  </h2>
+  {entries.map((entry) => (
+    <div class="resume-entry mb-1.5">
+      <span class="font-semibold text-xs">{entry.data.name}</span>
+      <span class="text-xs"> — {entry.data.short}</span>
+    </div>
+  ))}
+</section>

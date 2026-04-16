@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color palette - dark luxurious theme */
+  --color-bg: #0a0a0f;
+  --color-bg-card: #12121a;
+  --color-bg-elevated: #1a1a25;
+  --color-text: #f5f0eb;
+  --color-text-muted: #9a9aaa;
+  --color-accent: #d4a574;
+  --color-accent-dim: #b8906a;
+  --color-border: #2a2a3a;
+
+  /* Typography */
+  --font-heading: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Inter", "system-ui", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Prose content (rendered markdown) */
+.prose-content p {
+  margin-bottom: 1em;
+}
+
+.prose-content p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-content em {
+  font-style: italic;
+}
+
+.prose-content strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.prose-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
+}
+
+.prose-content a:hover {
+  opacity: 0.8;
+}
+
+/* Rotating text — 3D flip */
+.rotating-text {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
