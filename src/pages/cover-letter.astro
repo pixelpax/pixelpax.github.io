@@ -1,0 +1,373 @@
+---
+import { getCollection, render } from "astro:content";
+import { getMeta } from "../lib/data";
+
+const meta = getMeta();
+
+// Default to target-lead letter; can be extended to dynamic routes per letter
+const letters = await getCollection("coverLetters");
+const entry = letters.find((l) => l.id === "target-lead") || letters[0];
+const { Content: LetterBody } = await render(entry);
+
+const today = new Date().toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const salutation = entry.data.salutation || `Dear ${entry.data.recipient},`;
+const subline = `${entry.data.role}${entry.data.team ? ` · ${entry.data.team}` : ""}`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{`${meta.name} — Cover Letter (${entry.data.role} at ${entry.data.recipientOrg})`}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 10.5pt;
+    color: #2a2a2a;
+    background: #faf8f3;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    line-height: 1.6;
+  }
+
+  .page {
+    width: 8.5in;
+    margin: 0 auto;
+    background: #faf8f3;
+    position: relative;
+  }
+
+
+  /* ── HEADER ── */
+  .header {
+    background: #0a0a14;
+    color: #c8cdd3;
+    padding: 0.15in 0.75in 0.13in 0.75in;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(100, 140, 180, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 140, 180, 0.03) 1px, transparent 1px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #b8964e, #d4b06a, #c9a050);
+  }
+
+  .header-inner {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0.5in;
+  }
+
+  .name-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.15in;
+  }
+
+  .first-name, .last-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 17pt;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .last-name {
+    letter-spacing: 0.05em;
+  }
+
+  .title-bar {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #c9a050;
+    margin-top: 0.08in;
+  }
+
+  .contact-column {
+    text-align: right;
+    font-size: 7.5pt;
+    color: #b0b8c2;
+    line-height: 1.7;
+  }
+
+  .contact-column a { color: #b0b8c2; text-decoration: none; }
+
+  .contact-label {
+    color: #c9a050;
+    font-weight: 600;
+    font-size: 6pt;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-right: 0.06in;
+  }
+
+  /* ── BODY ── */
+  .letter {
+    padding: 0.18in 0.8in 0.18in 0.8in;
+    position: relative;
+  }
+
+  .date-line {
+    font-family: 'Raleway', sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #c9a050;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.12in;
+  }
+
+  .recipient {
+    margin-bottom: 0.1in;
+  }
+
+  .recipient-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 12pt;
+    color: #0f1923;
+    letter-spacing: 0.01em;
+  }
+
+  .recipient-org,
+  .recipient-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 10pt;
+    color: #8a8578;
+    margin-top: 0.01in;
+  }
+
+  .salutation {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 12pt;
+    color: #0f1923;
+    margin-bottom: 0.1in;
+  }
+
+  .body-text p {
+    margin-bottom: 0.035in;
+    font-size: 9pt;
+    line-height: 1.3;
+    color: #2a2a2a;
+  }
+
+  .body-text > p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* First paragraph gets pull-quote treatment */
+  .body-text > p:first-child {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    font-weight: 500;
+    line-height: 1.28;
+    color: #1a2332;
+    font-style: italic;
+    border-left: 2px solid #c9a050;
+    padding-left: 0.15in;
+    margin-bottom: 0.06in;
+  }
+
+  .body-text strong {
+    color: #0f1923;
+    font-weight: 600;
+  }
+
+  .body-text em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12pt;
+    color: #4a4537;
+  }
+
+  /* Markdown bullet lists from body */
+  .body-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.02in 0 0.06in 0;
+  }
+
+  .body-text li {
+    padding: 0.003in 0 0.003in 0.2in;
+    position: relative;
+    line-height: 1.22;
+    font-size: 8.5pt;
+  }
+
+  .body-text li::before {
+    content: '';
+    position: absolute;
+    left: 0.04in;
+    top: 0.065in;
+    width: 4.5px;
+    height: 4.5px;
+    border: 1.2px solid #c9a050;
+    transform: rotate(45deg);
+  }
+
+  .body-text code {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 9pt;
+    background: rgba(201, 160, 80, 0.1);
+    color: #8a6a38;
+    padding: 1px 5px;
+    border-radius: 2px;
+    border: 1px solid rgba(201, 160, 80, 0.2);
+  }
+
+  /* ── SIGNOFF ── */
+  .signoff {
+    margin-top: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.14in;
+    flex-wrap: wrap;
+  }
+
+  .signoff-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    color: #4a4537;
+  }
+
+  .signature {
+    font-family: 'Dancing Script', 'Playfair Display', cursive;
+    font-weight: 600;
+    font-size: 16pt;
+    color: #1a2332;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .sig-sub {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 6.5pt;
+    color: #8a8578;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    flex-basis: 100%;
+    margin-top: 0.02in;
+  }
+
+  /* ── CORNER MARKS ── */
+  .corner-mark {
+    position: absolute;
+    width: 0.38in;
+    height: 0.38in;
+    pointer-events: none;
+  }
+
+  .corner-bl {
+    bottom: 0.15in;
+    left: 0.4in;
+    border-left: 1px solid rgba(201, 160, 80, 0.45);
+    border-bottom: 1px solid rgba(201, 160, 80, 0.45);
+  }
+
+  .corner-br {
+    bottom: 0.15in;
+    right: 0.4in;
+    border-right: 1px solid rgba(201, 160, 80, 0.45);
+    border-bottom: 1px solid rgba(201, 160, 80, 0.45);
+  }
+
+  @media print {
+    body { background: #faf8f3; }
+    .page { width: 100%; min-height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="accent-bar"></div>
+    <div class="header-inner">
+      <div>
+        <div class="name-block">
+          <span class="first-name">{meta.firstName}</span>
+          <span class="last-name">{meta.lastName}</span>
+        </div>
+        <div class="title-bar">{subline}</div>
+      </div>
+      <div class="contact-column">
+        <div><span class="contact-label">Tel</span>{meta.phone}</div>
+        <div><span class="contact-label">Email</span><a href={`mailto:${meta.email}`}>{meta.email}</a></div>
+        {meta.links.website && (
+          <div><span class="contact-label">Web</span><a href={meta.links.website}>{meta.links.website.replace("https://", "")}</a></div>
+        )}
+      </div>
+    </div>
+  </header>
+
+  <main class="letter">
+    <div class="date-line">{today}</div>
+
+    <div class="recipient">
+      <div class="recipient-name">{entry.data.recipient}</div>
+      {entry.data.recipientTitle && (
+        <div class="recipient-title">{entry.data.recipientTitle}</div>
+      )}
+      <div class="recipient-org">{entry.data.recipientOrg}</div>
+    </div>
+
+    <div class="salutation">{salutation}</div>
+
+    <div class="body-text">
+      <LetterBody />
+    </div>
+
+    <div class="signoff">
+      <div class="signoff-line">{entry.data.closing}</div>
+      <div class="signature">Gabriel Elkind</div>
+    </div>
+
+    <div class="corner-mark corner-bl"></div>
+    <div class="corner-mark corner-br"></div>
+  </main>
+
+</div>
+
+</body>
+</html>

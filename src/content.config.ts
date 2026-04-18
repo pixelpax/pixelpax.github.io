@@ -45,6 +45,19 @@ const about = defineCollection({
   }),
 });
 
+const coverLetters = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: `${contentBase}/cover-letters` }),
+  schema: z.object({
+    recipient: z.string(),
+    recipientOrg: z.string(),
+    recipientTitle: z.string().optional(),
+    role: z.string(),
+    team: z.string().optional(),
+    salutation: z.string().optional(),
+    closing: z.string().default("With appreciation,"),
+  }),
+});
+
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: `${contentBase}/projects` }),
   schema: z.object({
@@ -61,4 +74,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { experience, education, about, projects };
+export const collections = { experience, education, about, projects, coverLetters };

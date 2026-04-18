@@ -1,10 +1,19 @@
 categories:
+  - name: "Domains"
+    items:
+      - { name: "Fullstack Engineering" }
+      - { name: "Mobile Development" }
+      - { name: "Game Development" }
+      - { name: "Engineering Management" }
+      - { name: "AI Engineering" }
+      - { name: "3D Applications" }
+
   - name: "Languages"
     items:
       - { name: "TypeScript", level: "expert" }
       - { name: "JavaScript", level: "expert" }
       - { name: "Python", level: "expert" }
-      - { name: "C#", level: "proficient" }
+      - { name: "C#", level: "expert" }
       - { name: "Kotlin", level: "proficient" }
       - { name: "Java", level: "proficient" }
       - { name: "C++", level: "familiar" }
@@ -16,7 +25,7 @@ categories:
       - { name: "React / Next.js", level: "expert" }
       - { name: "Node.js / Nest", level: "expert" }
       - { name: "Apollo GraphQL", level: "expert" }
-      - { name: "React Native", level: "proficient" }
+      - { name: "React Native", level: "expert" }
       - { name: "Rails", level: "proficient" }
       - { name: "Angular / Ember", level: "proficient" }
       - { name: "Unity3D", level: "proficient" }
@@ -27,21 +36,8 @@ categories:
       - { name: "PostgreSQL", level: "expert" }
       - { name: "Kafka", level: "proficient" }
       - { name: "AWS", level: "proficient", certification: "AWS Solutions Architect" }
-      - { name: "Docker", level: "proficient" }
+      - { name: "Docker/Kubernetes", level: "proficient" }
       - { name: "GCP", level: "proficient" }
       - { name: "MongoDB", level: "familiar" }
       - { name: "Firebase", level: "proficient" }
       - { name: "Redis", level: "proficient" }
-
-  - name: "Domains"
-    items:
-      - { name: "Distributed Systems" }
-      - { name: "Machine Learning & Data Science" }
-      - { name: "Computer Vision" }
-      - { name: "Computer Graphics" }
-      - { name: "DSL Design" }
-      - { name: "Robotics" }
-      - { name: "CAD (NURBS, parametric)" }
-      - { name: "Mobile-First Responsive Design" }
-      - { name: "Agile Development & Scrum" }
-      - { name: "UX Research & Design" }
