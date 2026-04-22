@@ -611,9 +611,43 @@ const resumePdfUrl = `${baseUrl}resume.pdf`;
     border-bottom: 1px solid rgba(201, 160, 80, 0.25);
   }
 
+  .download-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.1rem;
+    background: #0a0a14;
+    color: #c9a050;
+    border: 1px solid rgba(201, 160, 80, 0.4);
+    border-radius: 6px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  .download-btn:hover {
+    background: #141420;
+    border-color: #c9a050;
+    color: #e0c080;
+  }
+
+  .download-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
   @media print {
     body { background: #fff; }
     .page { width: 100%; min-height: 100vh; }
+    .download-btn { display: none; }
   }
 </style>
 </head>
@@ -874,6 +908,14 @@ const resumePdfUrl = `${baseUrl}resume.pdf`;
   </main>
 </div>
 )}
+
+<button class="download-btn" onclick="window.print()">
+  <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"/>
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5.5m0 0l-2.5-2.5M12 13.5l2.5-2.5M8 16h8"/>
+  </svg>
+  Download PDF
+</button>
 
 </body>
 </html>
