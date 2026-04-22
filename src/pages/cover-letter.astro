@@ -17,6 +17,11 @@ const today = new Date().toLocaleDateString("en-US", {
 
 const salutation = entry.data.salutation || `Dear ${entry.data.recipient},`;
 const subline = `${entry.data.role}${entry.data.team ? ` · ${entry.data.team}` : ""}`;
+
+// Variant-aware URLs
+const baseUrl = import.meta.env.BASE_URL;
+const siteOrigin = import.meta.env.SITE || "https://gabrielelkind.com";
+const websiteUrl = `${siteOrigin}${baseUrl}`;
 ---
 
 <!DOCTYPE html>
@@ -335,7 +340,7 @@ const subline = `${entry.data.role}${entry.data.team ? ` · ${entry.data.team}` 
         <div><span class="contact-label">Tel</span>{meta.phone}</div>
         <div><span class="contact-label">Email</span><a href={`mailto:${meta.email}`}>{meta.email}</a></div>
         {meta.links.website && (
-          <div><span class="contact-label">Web</span><a href={meta.links.website}>{meta.links.website.replace("https://", "")}</a></div>
+          <div><span class="contact-label">Web</span><a href={websiteUrl}>{websiteUrl.replace("https://", "").replace(/\/$/, "")}</a></div>
         )}
       </div>
     </div>

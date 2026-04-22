@@ -29,6 +29,7 @@ const { title, description } = Astro.props;
       <a href="#skills" class="hover:text-[var(--color-accent)] transition-colors duration-300">Skills</a>
       <a href="#education" class="hover:text-[var(--color-accent)] transition-colors duration-300">Education</a>
       <a href="#projects" class="hover:text-[var(--color-accent)] transition-colors duration-300">Projects</a>
+      <a href={`${import.meta.env.BASE_URL}resume.pdf`} class="text-[var(--color-accent)] hover:text-[var(--color-accent-bright,#e0c080)] transition-colors duration-300">Resumé ↓</a>
     </div>
   </nav>
 

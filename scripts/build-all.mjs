@@ -44,11 +44,45 @@ async function getVariants() {
   }
 }
 
+async function generatePdfs(distDir = DIST_DIR, basePath = "") {
+  const { spawn: spawnProcess } = await import("node:child_process");
+  const { setTimeout: sleep } = await import("node:timers/promises");
+
+  const port = 4400 + Math.floor(Math.random() * 100);
+  console.log(`\nStarting preview server on port ${port} for PDF generation...`);
+
+  const server = spawnProcess("npx", ["astro", "preview", "--port", String(port), "--outDir", distDir], {
+    stdio: "pipe",
+    env: { ...process.env },
+  });
+
+  // Wait for server to be ready
+  for (let i = 0; i < 30; i++) {
+    try {
+      const res = await fetch(`http://localhost:${port}${basePath}/resume`);
+      if (res.ok) break;
+    } catch {}
+    await sleep(500);
+  }
+
+  try {
+    run(`PORT=${port} PDF_OUTPUT=${distDir}/resume.pdf node scripts/build-pdf.mjs`);
+    run(`PORT=${port} PDF_OUTPUT=${distDir}/cover-letter.pdf node scripts/build-cover-letter-pdf.mjs`);
+  } finally {
+    server.kill();
+    console.log("Preview server stopped.");
+  }
+}
+
 async function main() {
   // 1. Build base site
   console.log("=== Building base site ===");
   run("node scripts/merge-content.mjs");
   run("npx astro build");
+
+  // 1b. Generate PDFs for base site
+  console.log("\n=== Generating PDFs for base site ===");
+  await generatePdfs(DIST_DIR);
 
   // 2. Build each variant
   const variants = await getVariants();
