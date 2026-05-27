@@ -1,6 +1,6 @@
 ---
 company: "Target Corporation"
-title: "Senior Engineer"
+title: "Lead Fullstack Engineer"
 location: "Minneapolis, MN"
 start: "2022-02"
 end: "present"
