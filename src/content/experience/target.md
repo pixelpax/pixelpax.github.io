@@ -9,7 +9,7 @@ tags: ["typescript", "nextjs", "graphql", "kafka", "kotlin", "node", "nest", "ap
 short: "Founding engineer on a full-stack platform at Target. Designed the core infrastructure, shipped 14 of the original 15 pages, and have operated at a lead level across delivery, ops, cross-team coordination, and AI adoption."
 highlights:
   - "Founding engineer — designed the core infrastructure and shipped 14 of the 15 original pages, all still the primary user flows in production today"
-  - "Top contributor on the team by lines of code, including above both current leads"
+  - "Top contributor on the team's GitHub by lines of code (1.3x more than runner-up)"
   - "Built the testing and operations backbone: e2e test infrastructure, logging, metrics, user behavior analytics, and the reporting dashboards that product uses"
   - "Cross-team anchor — coordinates with backend and product, runs feature kickoffs, plans and distributes work across the engineering team, owns incident response"
   - "Led the team's AI adoption — introduced workflows that materially changed how we ship"

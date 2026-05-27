@@ -5,13 +5,14 @@ location: "San Francisco, CA"
 start: "2020-02"
 end: "2021-06"
 order: 3
-tags: ["react", "typescript", "graphql", "rails", "postgres", "python", "react-native", "ruby"]
-short: "First hired engineer and team lead at a seed-to-sale cannabis compliance startup, where I built the platform and grew the engineering org from one to twelve."
+tags: ["typescript", "ruby", "rails", "graphql", "postgres", "redis", "python", "react"]
+short: "First hired engineer and team lead at a seed-to-sale cannabis compliance startup, where I owned the backend platform and grew the engineering org from one to twelve."
 highlights:
   - "Won 1st place at TechCrunch Disrupt 2020"
+  - "Built a performance-critical ERP backbone — Rails, GraphQL, PostgreSQL, Redis — powering ~60 front-to-back customer workflows"
+  - "Designed a custom API client and cross-database transaction system to integrate with a critical government API, using Sidekiq for parallelism and a token-bag pattern for rate-limited throughput"
   - "Built the engineering culture and conventions, achieving a 9.1/10 team satisfaction score"
-  - "Implemented ~60 front-to-back customer workflows"
-  - "Built full ERP system: React, GraphQL, Rails, PostgreSQL"
+  - "Built reusable GraphQL API patterns and a whitelisted, object-based permission system for API security"
 visible: true
 resumeVisible: true
 ---
@@ -31,7 +32,7 @@ Canix is a seed-to-sale tracking and compliance platform in the Cannabis tech in
 - Defined, implemented and maintained ~60 front-to-back customer workflows
 - Developed a performance-critical, full-featured ERP system for cannabis production and manufacturing
 - Built a common library of patterns for our GraphQL API layer with ruby-graphql and relay-modern
-- Created and maintained 30+ complex, reusable React components with stencil examples including data-streaming dropdowns, SQL-optimized filterable/sortable/selectable datatables, and a form system with configuration-based validation
 - Created a white-listed, object-based permission system for GraphQL security
 - Maintained PostgreSQL and Redis instances, optimizing high-traffic queries using functional indices, union tables, and materialized views
-- Maintained custom API client architecture to optimize access of a critical government API using Sidekiq for parallelism with a token bag pattern and custom transaction system for cross-database consistency
+- Maintained a custom API client architecture to integrate with a critical government API, using Sidekiq for parallelism with a token-bag pattern and a custom transaction system for cross-database consistency
+- Created and maintained 30+ complex, reusable React components, including data-streaming dropdowns, SQL-optimized filterable/sortable/selectable datatables, and a form system with configuration-based validation

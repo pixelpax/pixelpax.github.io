@@ -1,0 +1,39 @@
+categories:
+  - name: "Domains"
+    items:
+      - { name: "Backend Engineering" }
+      - { name: "Engineering Management" }
+      - { name: "Fullstack Engineering" }
+      - { name: "AI Engineering" }
+      - { name: "Mobile Development" }
+
+  - name: "Languages"
+    items:
+      - { name: "TypeScript", level: "expert" }
+      - { name: "JavaScript", level: "expert" }
+      - { name: "Python", level: "expert" }
+      - { name: "Kotlin", level: "proficient" }
+      - { name: "Java", level: "proficient" }
+      - { name: "Ruby", level: "proficient" }
+      - { name: "C#", level: "expert" }
+      - { name: "HTML/CSS", level: "expert" }
+
+  - name: "Frameworks & Libraries"
+    items:
+      - { name: "Node.js / Nest", level: "expert" }
+      - { name: "Apollo GraphQL", level: "expert" }
+      - { name: "React / Next.js", level: "expert" }
+      - { name: "Rails", level: "proficient" }
+      - { name: "React Native", level: "expert" }
+      - { name: "Redux", level: "proficient" }
+
+  - name: "Infrastructure & Tools"
+    items:
+      - { name: "PostgreSQL", level: "expert" }
+      - { name: "Kafka", level: "proficient" }
+      - { name: "AWS", level: "proficient", certification: "AWS Solutions Architect" }
+      - { name: "Docker/Kubernetes", level: "proficient" }
+      - { name: "GCP", level: "proficient" }
+      - { name: "Redis", level: "proficient" }
+      - { name: "Firebase", level: "proficient" }
+      - { name: "MongoDB", level: "familiar" }

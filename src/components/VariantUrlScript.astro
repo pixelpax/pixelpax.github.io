@@ -1,0 +1,29 @@
+<script is:inline>
+  (function () {
+    try {
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      // Escape hatch: ?nv clears the stored variant and shows base.
+      if (/[?&]nv(=|&|$)/.test(search)) {
+        try { localStorage.removeItem("variantSlug"); } catch (e) {}
+        return;
+      }
+      var m = path.match(/^\/v\/([a-z0-9]+)(\/.*)?$/i);
+      if (m) {
+        // Variant URL: remember the slug and strip the prefix from the bar.
+        // Content is already loaded from the variant build, so the page
+        // keeps its tailored copy; only the visible URL changes.
+        localStorage.setItem("variantSlug", m[1]);
+        var rest = m[2] || "/";
+        window.history.replaceState(null, "", rest + search + hash);
+      } else {
+        // Base URL: if we've seen a variant before, route back to it.
+        var slug = localStorage.getItem("variantSlug");
+        if (slug && /^[a-z0-9]+$/i.test(slug)) {
+          window.location.replace("/v/" + slug + path + search + hash);
+        }
+      }
+    } catch (e) {}
+  })();
+</script>

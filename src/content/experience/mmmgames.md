@@ -1,5 +1,5 @@
 ---
-company: "MMMGames"
+company: "Scrap Cathedral Games"
 title: "Indie Game Dev / Founder"
 location: "Minneapolis, MN"
 start: "2021-06"

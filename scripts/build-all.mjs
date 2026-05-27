@@ -25,7 +25,7 @@ async function getVariants() {
     const variants = [];
     for (const entry of entries) {
       if (!entry.isDirectory()) continue;
-      const metaPath = path.join(VARIANTS_DIR, entry.name, "meta.yaml");
+      const metaPath = path.join(VARIANTS_DIR, entry.name, "variant.yaml");
       try {
         const raw = await fs.readFile(metaPath, "utf-8");
         const meta = parseYaml(raw);
@@ -35,7 +35,7 @@ async function getVariants() {
           meta,
         });
       } catch {
-        console.warn(`Skipping ${entry.name}: no meta.yaml found`);
+        console.warn(`Skipping ${entry.name}: no variant.yaml found`);
       }
     }
     return variants;
@@ -59,7 +59,7 @@ async function main() {
     run("node scripts/merge-content.mjs", { VARIANT: variant.name });
     run("npx astro build --outDir .variant-dist", {
       VARIANT: variant.name,
-      BASE_PATH: `/v/${variant.slug}`,
+      BASE_PATH: `/v/${variant.slug}/`,
     });
 
     // Move variant build output into dist/v/<slug>/

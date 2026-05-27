@@ -59,8 +59,8 @@ async function merge() {
   }
 
   console.log(`Merging variant: ${VARIANT}`);
-  // Overlay variant files, skip meta.yaml (variant metadata only)
-  await overlayDir(variantDir, MERGED_DIR, ["meta.yaml"]);
+  // Overlay variant files, skip variant.yaml (variant metadata only)
+  await overlayDir(variantDir, MERGED_DIR, ["variant.yaml"]);
   console.log("Merge complete.");
 }
 

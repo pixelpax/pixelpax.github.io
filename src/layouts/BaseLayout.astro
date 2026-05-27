@@ -1,4 +1,6 @@
 ---
+import VariantUrlScript from "../components/VariantUrlScript.astro";
+
 interface Props {
   title: string;
   description?: string;
@@ -13,6 +15,7 @@ const { title, description = "Gabriel Elkind - Fullstack Engineer" } = Astro.pro
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <VariantUrlScript />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
